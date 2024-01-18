@@ -1,0 +1,28 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Detail Mahasiswa</h2>
+
+            <% if (!mhs) { %>
+                <div class="alert alert-danger mt-3" role="alert">
+                    Data mahasiswa tidak ada
+                    <br> 
+                    <a href="/data" class="alert-link">
+                        &laquo; kembali ke halaman data mahasiswa
+                    </a>.
+                </div>
+            <% } else { %>
+                <div class="card" style="width: 20rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= mhs.nama %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= mhs.nim %></h6>
+                        <p class="card-text">Program Studi <%= mhs.prodi %></p>
+                        <p class="card-text">Tahun Masuk: <%= mhs.tahunMasuk %></p>
+                        <a href="/data" class="card-link">&laquo; kembali ke halaman data mahasiswa</a>
+                    </div>
+                </div>
+            <% } %>
+            
+        </div>
+    </div>
+</div>

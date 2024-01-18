@@ -1,7 +1,33 @@
-<h3>Links</h3>
-
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/data">Student Data</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">Student Data</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <% if (name == 'home') { %>
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <% } else { %>
+            <a class="nav-link" href="/">Home</a>
+          <% } %>
+        </li>
+        <li class="nav-item">
+          <% if (name == 'about') { %>
+            <a class="nav-link active" aria-current="page" href="/about">About</a>
+          <% } else { %>
+            <a class="nav-link" href="/about">About</a>
+          <% } %>
+        </li>
+        <li class="nav-item">
+          <% if (name == 'data') { %>
+            <a class="nav-link active" aria-current="page" href="/data">Data</a>
+          <% } else { %>
+            <a class="nav-link" href="/data">Data</a>
+          <% } %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

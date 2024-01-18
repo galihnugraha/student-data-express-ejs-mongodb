@@ -1,6 +1,6 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
-const morgan = require('morgan')
+const {loadMahasiswa, findMahasiswa} = require('./utils/mahasiswa')
 const app = express()
 const port = 3000
 
@@ -8,21 +8,13 @@ const port = 3000
 app.set('view engine', 'ejs')
 app.use(expressLayouts)
 
-//third-party middleware
-app.use(morgan('dev'))
-
 //built-in middleware
 app.use(express.static('public'))
-
-//application level middleware
-app.use((res, req, next) => {
-    console.log('Time: ', new Date(Date.now()).toString())
-    next()   
-})
 
 //routing
 app.get('/', (req, res) => {
     res.render('index', {
+        name: 'home',
         title: "Halaman Home",
         layout: 'layouts/main-layout' 
     })
@@ -30,18 +22,31 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about', {
+        name: 'about',
         title: "Halaman About",
         layout: 'layouts/main-layout' 
     })
 })
 
 app.get('/data', (req, res) => {
+    const mahasiswa = loadMahasiswa()
     res.render('data', {
+        name: 'data',
         title: "Data Mahasiswa",
-        layout: 'layouts/main-layout' 
+        layout: 'layouts/main-layout',
+        mahasiswa 
     })
 })
 
+app.get('/data/:nim', (req, res) => {
+    const mhs = findMahasiswa(req.params.nim)
+    res.render('detail', {
+        name: 'detail',
+        title: "Detail Mahasiswa",
+        layout: 'layouts/main-layout',
+        mhs 
+    })
+})
 
 //middleware untuk route yang tidak tersedia
 app.use('/', (req, res) => {
