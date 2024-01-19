@@ -1,27 +1,42 @@
 const fs = require('fs')
 
+const dirPath = 'data'
+const dataPath = 'data/mahasiswa.json'
+
 //membuat folder data jika belum ada 
-const dirPath = './data'
-if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath)
+if (!fs.existsSync('./' + dirPath)) {
+    fs.mkdirSync('./' + dirPath)
 }
 
 //membuat contacts.json jika belum ada
-const dataPath = './data/mahasiswa.json'
-if (!fs.existsSync(dataPath)) {
-    fs.writeFileSync(dataPath, '[]', 'utf-8')
+if (!fs.existsSync('./' + dataPath)) {
+    fs.writeFileSync('./' + dataPath, '[]', 'utf-8')
 }
 
+//mengambil semua data mahasiswa
 const loadMahasiswa = () => {
-    const fileBuffer = fs.readFileSync('data/mahasiswa.json', 'utf-8')
+    const fileBuffer = fs.readFileSync(dataPath, 'utf-8')
     const mahasiswa = JSON.parse(fileBuffer)
     return mahasiswa
 }
 
+//mencari satu data mahasiswa
 const findMahasiswa = (findNim) => {
     const mahasiswa = loadMahasiswa()
     const dataFind = mahasiswa.filter((mhs) => mhs.nim.toLowerCase() === findNim.toLowerCase())[0]
     return dataFind
 }
 
-module.exports = {loadMahasiswa, findMahasiswa}
+//menimpa / menuliskan file mahasiswa.json dengan data yang baru
+const saveData = (mahasiswa) => {
+    fs.writeFileSync(dataPath, JSON.stringify(mahasiswa))
+}
+
+// menambah data mahasiswa
+const addMahasiswa = (mhsNew) => {
+    const mahasiswa = loadMahasiswa()
+    mahasiswa.push(mhsNew)
+    saveData(mahasiswa)
+}
+
+module.exports = {loadMahasiswa, findMahasiswa, addMahasiswa}

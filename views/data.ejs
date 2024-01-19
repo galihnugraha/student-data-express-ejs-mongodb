@@ -3,6 +3,8 @@
         <div class="col-md-8">
             <h2>Data Mahasiswa</h2>
 
+            <a href="/data/add" class="btn btn-primary mt-3">Tambah Data Mahasiswa</a>
+
             <table class="table mt-3">
                 <thead>
                   <tr>
@@ -28,7 +30,7 @@
                       <td><%= mhs.nim %></td>
                       <td><%= mhs.nama %></td>
                       <td>
-                          <a href="/data/<%= mhs.nim %>" class="btn btn-success badge rounded-pill">detail</a>
+                          <a href="/data/detail/<%= mhs.nim %>" class="btn btn-success badge rounded-pill">detail</a>
                       </td>
                     </tr>
                   <% }) %>
