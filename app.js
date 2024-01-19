@@ -5,7 +5,8 @@ const {
     loadMahasiswa, 
     findMahasiswa, 
     addMahasiswa,
-    cekDuplikat,
+    cekDuplikatNIM,
+    cekDuplikatEmail,
 } = require('./utils/mahasiswa')
 
 const app = express()
@@ -55,7 +56,7 @@ app.post(
             .isLength({ min: 9, max: 9 }).withMessage('NIM harus terdiri dari 9 digit angka')
             .isNumeric().withMessage('NIM harus berupa angka')
             .custom(value => {
-                const duplikat = cekDuplikat(value);
+                const duplikat = cekDuplikatNIM(value);
                 if (duplikat) {
                     throw new Error('NIM sudah digunakan, data tidak valid!');
                 }
@@ -64,7 +65,7 @@ app.post(
         body('email')
             .isEmail().withMessage('Email tidak valid!')
             .custom(value => {
-                const duplikat = cekDuplikat(value)
+                const duplikat = cekDuplikatEmail(value)
                 if (duplikat) {
                     throw new Error('Email sudah digunakan, data tidak valid!')
                 }

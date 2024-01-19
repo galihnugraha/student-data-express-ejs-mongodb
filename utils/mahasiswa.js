@@ -40,14 +40,20 @@ const addMahasiswa = (mhsNew) => {
 }
 
 //cek duplikat nim
-const cekDuplikat = (nim) => {
+const cekDuplikatNIM = (nim) => {
     mahasiswa = loadMahasiswa()
     return mahasiswa.find(mhs => mhs.nim === nim)
+}
+
+const cekDuplikatEmail = (email) => {
+    mahasiswa = loadMahasiswa()
+    return mahasiswa.find(mhs => mhs.email === email)
 }
 
 module.exports = {
     loadMahasiswa, 
     findMahasiswa, 
     addMahasiswa, 
-    cekDuplikat,
+    cekDuplikatNIM,
+    cekDuplikatEmail,
 }
