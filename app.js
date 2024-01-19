@@ -1,15 +1,17 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
+const {body, validationResult} = require('express-validator')
 const {
     loadMahasiswa, 
     findMahasiswa, 
     addMahasiswa,
+    cekDuplikat,
 } = require('./utils/mahasiswa')
 
 const app = express()
 const port = 3000
 
-//ejs for view engine and layouts
+//ejs and express-ejs-layouts for view engine and layouts
 app.set('view engine', 'ejs')
 app.use(expressLayouts)
 
@@ -46,9 +48,44 @@ app.get('/data/add', (req, res) => {
 })
 
 //proses tambah data mahasiswa
-app.post('/data', (req, res) => {
-    addMahasiswa(req.body)
-    res.redirect('data')
+app.post(
+    '/data',
+    [ //express-validator 
+        body('nim')
+            .isLength({ min: 9, max: 9 }).withMessage('NIM harus terdiri dari 9 digit angka')
+            .isNumeric().withMessage('NIM harus berupa angka')
+            .custom(value => {
+                const duplikat = cekDuplikat(value);
+                if (duplikat) {
+                    throw new Error('NIM sudah digunakan, data tidak valid!');
+                }
+                return true;
+            }),
+        body('email')
+            .isEmail().withMessage('Email tidak valid!')
+            .custom(value => {
+                const duplikat = cekDuplikat(value)
+                if (duplikat) {
+                    throw new Error('Email sudah digunakan, data tidak valid!')
+                }
+                return true;
+            }),
+        body('tahunMasuk').isNumeric().withMessage('Kolom tahun yang diinput harus merupakan angka!')
+    ], 
+    (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            // return res.status(400).json({errors: errors.array()})
+            res.render('add-data', {
+                name: 'data',
+                title: "Tambah Data Mahasiswa",
+                layout: 'layouts/main-layout',
+                errors: errors.array()
+            })
+        } else {
+            addMahasiswa(req.body)
+            res.redirect('data')
+        }
 })
 
 //menampilkan halaman data mahasiswa

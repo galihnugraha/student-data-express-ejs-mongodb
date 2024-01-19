@@ -39,4 +39,15 @@ const addMahasiswa = (mhsNew) => {
     saveData(mahasiswa)
 }
 
-module.exports = {loadMahasiswa, findMahasiswa, addMahasiswa}
+//cek duplikat nim
+const cekDuplikat = (nim) => {
+    mahasiswa = loadMahasiswa()
+    return mahasiswa.find(mhs => mhs.nim === nim)
+}
+
+module.exports = {
+    loadMahasiswa, 
+    findMahasiswa, 
+    addMahasiswa, 
+    cekDuplikat,
+}
