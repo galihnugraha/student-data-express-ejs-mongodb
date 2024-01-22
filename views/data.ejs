@@ -3,7 +3,11 @@
         <div class="col-md-8">
             <h2>Data Mahasiswa</h2>
 
-            <a href="/data/add" class="btn btn-primary mt-3">Tambah Data Mahasiswa</a>
+            <a href="/data/add" class="btn btn-primary mt-3 mb-3">Tambah Data Mahasiswa</a>
+
+            <% if (msg.length !== 0) { %>
+              <div class="alert alert-success" role="alert"><%= msg %></div>
+            <% } %>
 
             <table class="table mt-3">
                 <thead>

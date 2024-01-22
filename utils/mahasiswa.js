@@ -23,7 +23,7 @@ const loadMahasiswa = () => {
 //mencari satu data mahasiswa
 const findMahasiswa = (findNim) => {
     const mahasiswa = loadMahasiswa()
-    const dataFind = mahasiswa.filter((mhs) => mhs.nim.toLowerCase() === findNim.toLowerCase())[0]
+    const dataFind = mahasiswa.find(mhs => mhs.nim.toLowerCase() === findNim.toLowerCase())
     return dataFind
 }
 
@@ -32,28 +32,51 @@ const saveData = (mahasiswa) => {
     fs.writeFileSync(dataPath, JSON.stringify(mahasiswa))
 }
 
-// menambah data mahasiswa
+//menambah data mahasiswa
 const addMahasiswa = (mhsNew) => {
     const mahasiswa = loadMahasiswa()
     mahasiswa.push(mhsNew)
     saveData(mahasiswa)
 }
 
-//cek duplikat nim
+//hapus data mahasiswa
+const deleteMahasiswa = (mhsDelete) => {
+    const mahasiswa = loadMahasiswa()
+    const filteredMhs = mahasiswa.filter(mhs => mhs.nim != mhsDelete)
+    saveData(filteredMhs)
+}
+
+//mengubah data mahasiswa
+const updateMahasiswa = (mhsEdit) => {
+    const mahasiswa = loadMahasiswa()
+    //hilangkan mahasiswa lama yang nim = oldNim
+    const filteredMhs = mahasiswa.filter(mhs => mhs.nim != mhsEdit.oldNim)
+    //hapus data oldNim dan oldEmail
+    delete mhsEdit.oldNim
+    delete mhsEdit.oldEmail
+    //push and save to json 
+    filteredMhs.push(mhsEdit)
+    saveData(filteredMhs)
+}
+
+//cek duplikat nim pada json
 const cekDuplikatNIM = (nim) => {
-    mahasiswa = loadMahasiswa()
+    const mahasiswa = loadMahasiswa()
     return mahasiswa.find(mhs => mhs.nim === nim)
 }
 
+//cek duplikat email pada json
 const cekDuplikatEmail = (email) => {
-    mahasiswa = loadMahasiswa()
+    const mahasiswa = loadMahasiswa()
     return mahasiswa.find(mhs => mhs.email === email)
 }
 
 module.exports = {
     loadMahasiswa, 
     findMahasiswa, 
-    addMahasiswa, 
+    addMahasiswa,
+    deleteMahasiswa,
+    updateMahasiswa, 
     cekDuplikatNIM,
     cekDuplikatEmail,
 }
